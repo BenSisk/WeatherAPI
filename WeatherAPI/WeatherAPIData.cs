@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace WeatherAPI
 {
     public class WeatherAPIData
@@ -11,5 +13,7 @@ namespace WeatherAPI
 
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
