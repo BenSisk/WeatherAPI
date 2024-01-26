@@ -1,9 +1,11 @@
 # WeatherAPI
 
-##Unplanned possible improvements:
+## Unplanned possible improvements:
 
 - Geocoding location / city names with a city variable rather than long/lat
 
+
+## Weather Data Sources
 
 Weather data provided by [WeatherBit](Weatherbit.io).
 
