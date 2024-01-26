@@ -7,7 +7,7 @@
 
 ## Weather Data Sources
 
-Weather data provided by [WeatherBit](Weatherbit.io).
+Weather data provided by [WeatherBit](https://www.weatherbit.io/)
 
 Weather data provided by [OpenWeather](https://openweathermap.org/)
 
