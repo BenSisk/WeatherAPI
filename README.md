@@ -3,6 +3,8 @@
 ## Unplanned possible improvements:
 
 - Geocoding location / city names with a city variable rather than long/lat
+- Data Visualisation
+- Caching
 
 
 ## Weather Data Sources
