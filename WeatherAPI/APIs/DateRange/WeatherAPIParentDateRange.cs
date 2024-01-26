@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Drawing;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using WeatherAPI.DataStructs;
 
-namespace WeatherAPI
+namespace WeatherAPI.APIs.DateRange
 {
-    public class WeatherAPIParent
+    public class WeatherAPIParentDateRange
     {
         protected static IConfigurationRoot config = new ConfigurationBuilder()
                 .AddUserSecrets<Program>()
@@ -15,16 +17,15 @@ namespace WeatherAPI
 
         // I think it works in theory as the object is instatiated if null, and only read from not written to after this
         // uses dependency injection on api using the interface IExternalWeatherAPI
-        protected static async Task<JObject> GetWeatherAsync(string path, IExternalWeatherAPI API)
+        private static async Task<JObject> GetWeatherAsync(string path, IExternalWeatherAPIDateRange API)
         {
             HttpResponseMessage response = await API.GetClient().GetAsync(path);
 
             if (response.IsSuccessStatusCode)
             {
-                string data = await response.Content.ReadAsStringAsync();
-                // Console.WriteLine(data);
-                JObject json = JObject.Parse(data);
-                return json;
+                string Data = await response.Content.ReadAsStringAsync();
+                JObject JSON = JObject.Parse(Data);
+                return JSON;
             }
             else
             {
@@ -33,16 +34,17 @@ namespace WeatherAPI
             }
         }
 
-        public static async Task<WeatherAPIData> Query(IExternalWeatherAPI API, double Long = 0.1276, double Lat = 51.5072, string TempUnit = "C")
+        public static async Task<WeatherDateRangeData> Query(IExternalWeatherAPIDateRange API, DateTime StartDate, DateTime EndDate, double Long = 0.1276, double Lat = 51.5072, string TempUnit = "C")
         {
             try
             {
                 // grabs the specific URI from the corresponding API class with its user secrets API key,
                 // inserts the lat and long into the URI, and passes it to GetWeatherAsync to query it
-                JObject Data = await GetWeatherAsync( API.GetURI(Long, Lat), API);
+                JObject JSONData = await GetWeatherAsync(API.GetURI(Long, Lat, StartDate, EndDate), API);
+                Console.WriteLine(JSONData);
 
                 // sends the result back to the API class to decode the JSON into a WeatherAPIData object, and returns it to the controller
-                return API.DecodeJSON(Data, TempUnit);
+                return API.DecodeJSON(JSONData, TempUnit, StartDate, EndDate, Long, Lat);
             }
             catch (Exception e)
             {

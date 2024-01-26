@@ -1,20 +1,19 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
+using WeatherAPI.DataStructs;
 
-namespace WeatherAPI
+namespace WeatherAPI.APIs.CurrentDay
 {
-    class OpenWeatherMap : WeatherAPIParent, IExternalWeatherAPI
+    class WeatherBit : WeatherAPIParent, IExternalWeatherAPI
     {
         private HttpClient? Client;
-        private static OpenWeatherMap? instance;
+        private static WeatherBit? instance;
 
         public HttpClient GetClient()
         {
-            if (Client is null)
-            {
+            if (Client is null) {
                 Client = new HttpClient();
-                Client.BaseAddress = new Uri("https://api.openweathermap.org");
+                Client.BaseAddress = new Uri("https://api.weatherbit.io/");
                 Client.DefaultRequestHeaders.Accept.Clear();
                 Client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -25,7 +24,7 @@ namespace WeatherAPI
 
         public string GetURI(double Long, double Lat)
         {
-            return $"/data/2.5/weather?lat={Lat}&lon={Long}&appid={config["OpenWeatherMapAPIKey"]}&units=metric";
+            return $"/v2.0/current?lat={Lat}&lon={Long}&key={config["WeatherBitAPIKey"]}&units=M";
         }
 
         // returns an instantiated singleton object of the class for use in the parent class' generic method
@@ -33,49 +32,48 @@ namespace WeatherAPI
         {
             if (instance == null)
             {
-                instance = new OpenWeatherMap();
+                instance = new WeatherBit();
             }
             return instance;
         }
 
 
         // Decodes JSON into a WeatherAPI data object using the API's schema
-        public WeatherAPIData DecodeJSON(JObject data, string TempUnit)
+        public WeatherAPIData DecodeJSON(JObject Data, string TempUnit)
         {
             try
             {
-                if (data != null)
+                if (Data != null)
                 {
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
-                    double Temp;
-                    if (TempUnit == "k") { Temp = (double)data["main"]["temp"] + 273.15; TempUnit = "K"; }               // Kelvin
-                    else if (TempUnit == "f") { Temp = 32 + ((double)data["main"]["temp"] / 0.5556); TempUnit = "F"; }   // Fahrenheit
-                    else { Temp = (double)data["main"]["temp"]; TempUnit = "C"; }                                        // Celsius
+                    // Default Celsius
+                    double Temp = (double)Data["data"][0]["temp"];
+                    TempUnit = "C";
+
+                    if (TempUnit == "k") { Temp += 273.15; TempUnit = "K"; }               // Kelvin
+                    else if (TempUnit == "f") { Temp = 32 + (Temp / 0.5556); TempUnit = "F"; }   // Fahrenheit
 
 
                     WeatherAPIData WeatherData = new WeatherAPIData
                     {
-                        
+                        Date = DateTime.Now,
                         Temp = Temp,
-                        Humidity = (double)data["main"]["humidity"],
-                        WindSpeed = (double)data["wind"]["speed"],
-                        WindDirection = (double)data["wind"]["deg"],
-                        Pressure = (double)data["main"]["pressure"],
-                        CloudCover = (double)data["clouds"]["all"],
 
-                        Longitude = (double)data["coord"]["lon"],
-                        Latitude = (double)data["coord"]["lat"],
+                        Humidity = (double)Data["data"][0]["dhi"],
+                        WindSpeed = (double)Data["data"][0]["wind_spd"],
+                        WindDirection = (double)Data["data"][0]["wind_dir"],
+                        Pressure = (double)Data["data"][0]["pres"],
+                        CloudCover = (double)Data["data"][0]["clouds"],
+
+                        Longitude = (double)Data["data"][0]["lon"],
+                        Latitude = (double)Data["data"][0]["lat"],
                         TempUnit = TempUnit,
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8604 // Possible null reference argument.
-
-                        StartDate = DateTime.Now,
-                        EndDate = DateTime.Now
                     };
-
                     return WeatherData;
                 }
                 throw new Exception("No data found, value is null");
