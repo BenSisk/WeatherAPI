@@ -5,26 +5,29 @@ namespace WeatherAPI
 {
     public class OpenWeatherMap : IExternalWeatherAPI
     {
-        private static HttpClient client;
+        private static HttpClient? Client;
+
+        private static HttpClient GetClient()
+        {
+            if (Client is null) {
+                Client = new HttpClient();
+                Client.BaseAddress = new Uri("https://api.openweathermap.org:443/");
+                Client.DefaultRequestHeaders.Accept.Clear();
+                Client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+
+            return Client;
+        }
 
         private static IConfigurationRoot config = new ConfigurationBuilder()
                 .AddUserSecrets<Program>()
                 .Build();
 
 
-        public static void InitClient()
-        {
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://api.openweathermap.org:443/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-
         private static async Task<JObject> GetWeatherAsync(string path)
         {
-            HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await GetClient().GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 string data = await response.Content.ReadAsStringAsync();
@@ -42,8 +45,6 @@ namespace WeatherAPI
 
         public static async Task<WeatherAPIData> Query(double Long = 0.1276, double Lat = 51.5072, string UnitSystem = "metric")
         {
-            if (client is null) { InitClient(); }
-
             try
             {
                 var data = await GetWeatherAsync($"/data/2.5/weather?lat={Lat}&lon={Long}&appid={config["OpenWeatherMapAPI"]}&units={UnitSystem}");
