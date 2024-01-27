@@ -1,5 +1,22 @@
 # WeatherAPI
 
+## API Usage
+
+### Exposed Endpoints
+- /weather
+  - lat (optional - defaults to London)
+  - long (optional, defaults to London)
+  - TempUnit (optional - defaults to Celsius, possible values: "C", "F", "K")
+  - API (optional - defaults to OpenWeatherMap, possible values: "OpenWeatherMap", "WeatherBit")
+
+- /weather/date-range
+    - StartDate (required, format yyyy-mm-dd, cannot be in the future)
+    - EndDate (required, format yyyy-mm-dd, must not be before StartDate)
+    - lat (optional - defaults to London)
+    - long (optional - defaults to London)
+    - TempUnit (optional - defaults to Celsius, possible values: "C", "F", "K")
+
+
 ## Unplanned possible improvements:
 
 - Geocoding location / city names with a city variable rather than long/lat
