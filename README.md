@@ -10,14 +10,13 @@
   - API (optional - defaults to OpenWeatherMap, possible values: "OpenWeatherMap", "WeatherBit")
 
 - /weather/date-range
-    - StartDate (required, format yyyy-mm-dd, cannot be in the future)
-    - EndDate (required, format yyyy-mm-dd, must not be before StartDate)
+    - StartDate (**required**, format yyyy-mm-dd, cannot be in the future)
+    - EndDate (**required**, format yyyy-mm-dd, must not be before StartDate)
     - lat (optional - defaults to London)
     - long (optional - defaults to London)
     - TempUnit (optional - defaults to Celsius, possible values: "C", "F", "K")
 
-### Example Requests
-
+## Example Requests
 ### Example 1
 
 `GET /weather`
@@ -183,11 +182,18 @@ Produced Response:
 }
 ```
 
-## Unplanned possible improvements:
+## Running the project
+
+This project is written in C# using ASP.Net, and depends on ```Microsoft.AspNetCore```, ```System.Net.Http```, and ```Newtonsoft.Json.Linq```.
+
+This project relies upon external APIs, currently configured using Visual Studio's "User Secrets" functionality. Two keys are currently required, both of which are free for non-commercial use and attributed below, and only necessary if requesting current weather condiitions. ```OpenWeatherMapAPIKey``` and ```WeatherBitAPIKey``` are their identifiers, stored in a ```secrets.json``` file with a UUID parent directory referencing the project files.
+
+## Unplanned possible improvements
 
 - Geocoding location / city names with a city variable rather than long/lat
 - Data Visualisation
 - Caching
+- Unit Testing
 
 
 ## Weather Data Sources
