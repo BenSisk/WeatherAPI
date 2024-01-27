@@ -13,4 +13,6 @@ Weather data provided by [WeatherBit](https://www.weatherbit.io/)
 
 Weather data provided by [OpenWeather](https://openweathermap.org/)
 
+Weather data provided by [Open-Meteo](https://open-meteo.com/)
+
 ![OpenWeather-Master-Logo RGB](https://github.com/BenSisk/WeatherAPI/assets/43730029/02401a9a-d255-46c7-a16e-6508caca7fd9)
