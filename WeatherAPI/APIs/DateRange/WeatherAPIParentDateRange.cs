@@ -19,9 +19,7 @@ namespace WeatherAPI.APIs.DateRange
         // uses dependency injection on api using the interface IExternalWeatherAPI
         private static async Task<JObject> GetWeatherAsync(string path, IExternalWeatherAPIDateRange API)
         {
-            Console.WriteLine(path);
             HttpResponseMessage response = await API.GetClient().GetAsync(path);
-            Console.WriteLine(response);
 
             if (response.IsSuccessStatusCode)
             {

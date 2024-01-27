@@ -23,7 +23,6 @@ namespace WeatherAPI.APIs.CurrentDay
             if (response.IsSuccessStatusCode)
             {
                 string data = await response.Content.ReadAsStringAsync();
-                // Console.WriteLine(data);
                 JObject json = JObject.Parse(data);
                 return json;
             }
