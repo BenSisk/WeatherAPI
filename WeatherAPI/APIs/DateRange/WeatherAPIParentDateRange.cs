@@ -19,7 +19,9 @@ namespace WeatherAPI.APIs.DateRange
         // uses dependency injection on api using the interface IExternalWeatherAPI
         private static async Task<JObject> GetWeatherAsync(string path, IExternalWeatherAPIDateRange API)
         {
+            Console.WriteLine(path);
             HttpResponseMessage response = await API.GetClient().GetAsync(path);
+            Console.WriteLine(response);
 
             if (response.IsSuccessStatusCode)
             {
@@ -41,7 +43,6 @@ namespace WeatherAPI.APIs.DateRange
                 // grabs the specific URI from the corresponding API class with its user secrets API key,
                 // inserts the lat and long into the URI, and passes it to GetWeatherAsync to query it
                 JObject JSONData = await GetWeatherAsync(API.GetURI(Long, Lat, StartDate, EndDate), API);
-                Console.WriteLine(JSONData);
 
                 // sends the result back to the API class to decode the JSON into a WeatherAPIData object, and returns it to the controller
                 return API.DecodeJSON(JSONData, TempUnit, StartDate, EndDate, Long, Lat);

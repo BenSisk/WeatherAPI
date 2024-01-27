@@ -14,7 +14,7 @@ namespace WeatherAPI.APIs.DateRange
             if (Client is null)
             {
                 Client = new HttpClient();
-                Client.BaseAddress = new Uri("https://api.openweathermap.org");
+                Client.BaseAddress = new Uri("https://api.open-meteo.com/");
                 Client.DefaultRequestHeaders.Accept.Clear();
                 Client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -25,8 +25,8 @@ namespace WeatherAPI.APIs.DateRange
 
         public string GetURI(double Long, double Lat, DateTime StartDate, DateTime EndDate)
         {
-            return $"/data/2.5/weather?lat={Lat}&lon={Long}&type=hour&units=metric&appid={config["OpenWeatherMapAPIKey"]}" + 
-                $"&start={((DateTimeOffset)StartDate).ToUnixTimeSeconds()}&end={((DateTimeOffset)EndDate).ToUnixTimeSeconds()}";
+            return $"https://archive-api.open-meteo.com/v1/archive?latitude={Lat}&longitude={Long}" +
+                $"&start_date={StartDate.ToString("yyyy-MM-dd")}&end_date={EndDate.ToString("yyyy-MM-dd")}&hourly=temperature_2m&wind_speed_unit=ms";
         }
 
         // returns an instantiated singleton object of the class for use in the parent class' generic method
@@ -50,18 +50,25 @@ namespace WeatherAPI.APIs.DateRange
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
+                    List<double> DataList = Data["hourly"]["temperature_2m"].Select(x => (double)x).ToList();
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8604 // Possible null reference argument.
+
+                    double MinTemp = DataList.Min();
+                    double MaxTemp = DataList.Max();
+                    double AvgTemp = DataList.Average();
+
                     // Default Celsius
 
                     // this is the incorrect temp min and max, and actually represents the min and max temp at the time of the query.
                     // Leaving as placeholder for now, as I think an actual solution will require querying each day individually
                     // may develop a cache for this so it doesnt gobble all my allowed queries.
-                    double MinTemp = (double)Data["main"]["temp_min"];
-                    double MaxTemp = (double)Data["main"]["temp_max"];
                     TempUnit = "C";
 
 
-                    if (TempUnit == "k"){ MinTemp += 273.15; MaxTemp += 273.15; TempUnit = "K"; }                                       // Kelvin
-                    else if (TempUnit == "f") { MinTemp = 32 + (MinTemp / 0.5556); MaxTemp = 32 + (MaxTemp / 0.5556); TempUnit = "F"; } // Fahrenheit
+                    if (TempUnit == "k"){ MinTemp += 273.15; MaxTemp += 273.15; AvgTemp += 273.15; TempUnit = "K"; }                                                        // Kelvin
+                    else if (TempUnit == "f") { MinTemp = 32 + (MinTemp / 0.5556); MaxTemp = 32 + (MaxTemp / 0.5556); AvgTemp = 32 + (AvgTemp / 0.5556);  TempUnit = "F"; } // Fahrenheit
 
 
                     WeatherDateRangeData WeatherData = new WeatherDateRangeData
@@ -71,19 +78,11 @@ namespace WeatherAPI.APIs.DateRange
                         Longitude = Long,
                         Latitude = Lat,
 
-                        Humidity = (double)Data["main"]["humidity"],
-                        WindSpeed = (double)Data["wind"]["speed"],
-                        WindDirection = (double)Data["wind"]["deg"],
-                        Pressure = (double)Data["main"]["pressure"],
-                        CloudCover = (double)Data["clouds"]["all"],
-
                         TempUnit = TempUnit,
-                        WeatherDescription = (string?)Data["weather"][0]["description"],
-                        MinTemp = MinTemp,
-                        MaxTemp = MaxTemp
 
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8604 // Possible null reference argument.
+                        MinTemp = MinTemp,
+                        MaxTemp = MaxTemp,
+                        AvgTemp = AvgTemp
                     };
 
                     return WeatherData;
