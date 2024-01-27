@@ -186,9 +186,9 @@ Produced Response:
 
 This project is written in C# using ASP.Net, and depends on ```Microsoft.AspNetCore```, ```System.Net.Http```, and ```Newtonsoft.Json.Linq```.
 
-This project relies upon external APIs, currently configured using Visual Studio's "User Secrets" functionality. Two keys are currently required, both of which are free for non-commercial use and attributed below, and only necessary if requesting current weather condiitions. ```OpenWeatherMapAPIKey``` and ```WeatherBitAPIKey``` are their identifiers, stored in a ```secrets.json``` file with a UUID referencing the project files.
+This project relies upon external APIs, currently configured using Visual Studio's "User Secrets" functionality. Two keys are currently required, both of which are free for non-commercial use and attributed below, and only necessary if requesting current weather condiitions. ```OpenWeatherMapAPIKey``` and ```WeatherBitAPIKey``` are their identifiers, stored in a ```secrets.json``` file with a UUID parent directory referencing the project files.
 
-## Unplanned possible improvements:
+## Unplanned possible improvements
 
 - Geocoding location / city names with a city variable rather than long/lat
 - Data Visualisation
