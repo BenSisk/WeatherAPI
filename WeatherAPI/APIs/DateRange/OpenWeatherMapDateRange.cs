@@ -61,7 +61,7 @@ namespace WeatherAPI.APIs.DateRange
                     // Default Celsius
                     if (TempUnit == "k"){ MinTemp += 273.15; MaxTemp += 273.15; AvgTemp += 273.15; TempUnit = "K"; }                                                        // Kelvin
                     else if (TempUnit == "f") { MinTemp = 32 + (MinTemp / 0.5556); MaxTemp = 32 + (MaxTemp / 0.5556); AvgTemp = 32 + (AvgTemp / 0.5556);  TempUnit = "F"; } // Fahrenheit
-
+                    else { TempUnit = "C"; }
 
                     WeatherDateRangeData WeatherData = new WeatherDateRangeData
                     {

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.ComponentModel;
 using WeatherAPI.DataStructs;
 
 namespace WeatherAPI.APIs.CurrentDay
