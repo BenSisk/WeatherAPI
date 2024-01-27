@@ -18,18 +18,14 @@
 
 ### Example Requests
 
-#### Example 1
+### Example 1
 
 `GET /weather`
 
-longitude = -0.1149 (Default)
-
-latitude = 51.5142 (Default)
-
-Temperature unit: Celsius (Default)
-
+longitude = -0.1149 (Default)  
+latitude = 51.5142 (Default)  
+Temperature unit: Celsius (Default)  
 Query API: OpenWeatherMap (Default)
-
 
     http://localhost:5074/Weather
 
@@ -50,18 +46,14 @@ Produced Response:
 }
 ```
 
-#### Example 2
+### Example 2
 
 `GET /weather`
 
-longitude = -118.2426
-
-latitude = 34.0549
-
-Temperature unit: Celsius (Default)
-
+longitude = -118.2426  
+latitude = 34.0549  
+Temperature unit: Celsius (Default)  
 Query API: OpenWeatherMap (Default)
-
 
     http://localhost:5074/Weather?Long=-118.2426&Lat=34.0549
 
@@ -82,16 +74,13 @@ Produced Response:
 }
 ```
 
-#### Example 3
+### Example 3
 
 `GET /weather`
 
-longitude = -118.2426
-
-latitude = 34.0549
-
-Temperature unit: Kelvin
-
+longitude = -118.2426  
+latitude = 34.0549  
+Temperature unit: Kelvin  
 Query API: WeatherBit
 
     http://localhost:5074/Weather?Long=-118.2426&Lat=34.0549&TempUnit=K&API=WeatherBit
@@ -113,18 +102,14 @@ Produced Response:
 }
 ```
 
-#### Example 4
+### Example 4
 
 `GET /weather/date-range`
 
-longitude = -0.1149 (Default)
-
-latitude = 51.5142 (Default)
-
-Temperature unit: Celsius (Default)
-
-Start Date: 1st January 2023
-
+longitude = -0.1149 (Default)  
+latitude = 51.5142 (Default)  
+Temperature unit: Celsius (Default)  
+Start Date: 1st January 2023  
 End Date: 1st January 2024
 
     http://localhost:5074/weather/date-range&startdate=2023-1&enddate=2024-1
@@ -140,22 +125,18 @@ Produced Response:
   "tempUnit": "C",
   "minTemp": -4.8,
   "maxTemp": 31.3,
-  "avgTemp": 11.560553278688477
+  "avgTemp": 11.56
 }
 ```
 
-#### Example 5
+### Example 5
 
 `GET /weather/date-range`
 
-longitude = -118.2426
-
-latitude = 34.0549
-
-Temperature unit: Celsius (Default)
-
-Start Date: 1st April 2023
-
+longitude = -118.2426  
+latitude = 34.0549  
+Temperature unit: Celsius (Default)  
+Start Date: 1st April 2023  
 End Date: 24th January 2024
 
     http://localhost:5074/weather/date-range&startdate=2023-4-1&enddate=2024-1-24?Long=-118.2426&Lat=34.0549
@@ -171,22 +152,18 @@ Produced Response:
   "tempUnit": "C",
   "minTemp": 1.9,
   "maxTemp": 36,
-  "avgTemp": 17.880866778149393
+  "avgTemp": 17.88
 }
 ```
 
-#### Example 6
+### Example 6
 
 `GET /weather/date-range`
 
-longitude = -118.2426
-
-latitude = 34.0549
-
-Temperature unit: Kelvin
-
-Start Date: 8th March 2000
-
+longitude = -118.2426  
+latitude = 34.0549  
+Temperature unit: Kelvin  
+Start Date: 8th March 2000  
 End Date: 16th December 2020
 
     http://localhost:5074/weather/date-range&startdate=2000-03-08&enddate=2020-12-16?Long=-118.2426&Lat=34.0549&TempUnit=K
@@ -199,10 +176,10 @@ Produced Response:
   "endDate": "2020-12-16T00:00:00",
   "longitude": -118.2426,
   "latitude": 34.0549,
-  "tempUnit": "C",
-  "minTemp": -2,
-  "maxTemp": 44.8,
-  "avgTemp": 17.944332257214683
+  "tempUnit": "K",
+  "minTemp": 271.15,
+  "maxTemp": 317.95,
+  "avgTemp": 291.09
 }
 ```
 
