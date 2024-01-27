@@ -21,12 +21,10 @@ namespace WeatherAPI.Controllers
                 double Longitude = Long is not null ? (double)Long : -0.11489;
                 double Latitude = Lat is not null ? (double)Lat : 51.51418;
 
-                TempUnit = TempUnit is not null ? TempUnit.ToLower() : "c";
-
                 if (Lat < -90 || Lat > 90 || Long < -180 || Long > 180) return BadRequest("Invalid latitude or longitude");
-                if (TempUnit != "c" && TempUnit != "f" && TempUnit != "k") return BadRequest("Invalid temperature unit. Please use 'C', 'K' or 'F'");
-                TempUnit = TempUnit == "c" || TempUnit == "f"  || TempUnit == "k" ? TempUnit : "c";
 
+                TempUnit = TempUnit is not null ? TempUnit.ToLower() : "c";
+                if (TempUnit != "c" && TempUnit != "f" && TempUnit != "k") return BadRequest("Invalid temperature unit. Please use 'C', 'K' or 'F'");
 
                 // default to OpenWeatherMap, weatherbit is an optional variable
                 IExternalWeatherAPI ChosenAPI;
@@ -61,8 +59,6 @@ namespace WeatherAPI.Controllers
 
                 if (Lat < -90 || Lat > 90 || Long < -180 || Long > 180) return BadRequest("Invalid latitude or longitude");
                 if (TempUnit != "c" && TempUnit != "f" && TempUnit != "k") return BadRequest("Invalid temperature unit. Please use 'C', 'K' or 'F'");
-
-                TempUnit = TempUnit == "c" || TempUnit == "f" || TempUnit == "k" ? TempUnit : "c";
 
                 if (StartDate > DateTime.Now) return BadRequest("Start date cannot be in the future");
                 if (StartDate > EndDate) return BadRequest("Start date cannot be after end date");

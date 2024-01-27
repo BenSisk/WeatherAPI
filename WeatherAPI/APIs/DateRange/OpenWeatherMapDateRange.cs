@@ -49,7 +49,6 @@ namespace WeatherAPI.APIs.DateRange
                 {
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-
                     List<double> DataList = Data["hourly"]["temperature_2m"].Select(x => (double)x).ToList();
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -57,16 +56,9 @@ namespace WeatherAPI.APIs.DateRange
 
                     double MinTemp = DataList.Min();
                     double MaxTemp = DataList.Max();
-                    double AvgTemp = DataList.Average();
+                    double AvgTemp = Math.Round(DataList.Average(), 2);
 
                     // Default Celsius
-
-                    // this is the incorrect temp min and max, and actually represents the min and max temp at the time of the query.
-                    // Leaving as placeholder for now, as I think an actual solution will require querying each day individually
-                    // may develop a cache for this so it doesnt gobble all my allowed queries.
-                    TempUnit = "C";
-
-
                     if (TempUnit == "k"){ MinTemp += 273.15; MaxTemp += 273.15; AvgTemp += 273.15; TempUnit = "K"; }                                                        // Kelvin
                     else if (TempUnit == "f") { MinTemp = 32 + (MinTemp / 0.5556); MaxTemp = 32 + (MaxTemp / 0.5556); AvgTemp = 32 + (AvgTemp / 0.5556);  TempUnit = "F"; } // Fahrenheit
 

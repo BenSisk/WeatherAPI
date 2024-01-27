@@ -50,7 +50,6 @@ namespace WeatherAPI.APIs.CurrentDay
 
                     // Default Celsius
                     double Temp = (double)Data["data"][0]["temp"];
-                    TempUnit = "C";
 
                     if (TempUnit == "k") { Temp += 273.15; TempUnit = "K"; }               // Kelvin
                     else if (TempUnit == "f") { Temp = 32 + (Temp / 0.5556); TempUnit = "F"; }   // Fahrenheit
