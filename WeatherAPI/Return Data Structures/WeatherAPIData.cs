@@ -1,4 +1,4 @@
-using System.ComponentModel;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WeatherAPI.DataStructs
 {
