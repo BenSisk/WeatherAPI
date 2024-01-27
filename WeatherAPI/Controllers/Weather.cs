@@ -11,8 +11,6 @@ namespace WeatherAPI.Controllers
     [EnableRateLimiting("WeatherAPI")]
     public class Weather : ControllerBase
     {
-        public DateOnly Date { get; set; }
-
         [HttpGet()]
         [Route("[controller]")]
         public async Task<IActionResult> Get(double? Long, double? Lat, string? TempUnit, string? API)
